@@ -16,6 +16,7 @@ namespace Iternova\DOCXMerger;
 class DOCXMerger {
     /** @var array $array_files Array de ficheros */
     private $array_files = [];
+
     /** @var bool[] $array_files_page_breaks Array que indica si al incluir cada fichero hay que introducir un salto de pagina previo */
     private $array_files_page_breaks = [];
 
