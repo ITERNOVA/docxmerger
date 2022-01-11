@@ -14,7 +14,7 @@
 namespace Iternova\DOCXMerger\libs;
 
 // @note Si constante definida es que ya esta cargado TbsZIP en otra libreria (eg: TinyButStrong - OpenTBS)
-if ( !defined( TBSZIP_DOWNLOAD ) ) {
+if ( !defined( 'TBSZIP_DOWNLOAD' ) ) {
     define( 'TBSZIP_DOWNLOAD', 1 );   // download (default)
     define( 'TBSZIP_NOHEADER', 4 );   // option to use with DOWNLOAD: no header is sent
     define( 'TBSZIP_FILE', 8 );       // output to file  , or add from file

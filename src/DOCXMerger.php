@@ -28,7 +28,7 @@ class DOCXMerger {
     /**
      * @param array $array_files_paths Rutas absolutas de ficheros DOCX a mergear
      */
-    public function add_files( array $array_files_paths ) {
+    public function add_files( $array_files_paths ) {
         $this->array_files = array_merge( $this->array_files, $array_files_paths );
     }
 
@@ -40,7 +40,7 @@ class DOCXMerger {
      * @throws \RuntimeException
      */
     public function save( $output_file_path, $page_breaks = false ) {
-        if ( !count( $this->array_files ) ) {
+        if ( empty( $this->array_files ) ) {
             return false;
         }
 
@@ -50,6 +50,10 @@ class DOCXMerger {
 
         $obj_file_docx = new \Iternova\DOCXMerger\libs\DOCXManager( $output_file_path );
         foreach ( $this->array_files as $file_index => $file_path ) {
+            if ( $file_index === 0 ) {
+                // El primero ya esta copiado previamente
+                continue;
+            }
             $obj_file_docx->add_file( $file_path, "file_part_" . $file_index . ".docx", "rId10" . $file_index, $page_breaks );
         }
 
