@@ -50,16 +50,13 @@ class DOCXMerger {
             return false;
         }
 
-        if ( !copy( $this->array_files[ 0 ], $output_file_path ) ) {
+        $first_file = array_shift( $this->array_files );
+        if ( !copy( $first_file, $output_file_path ) ) {
             throw new \RuntimeException( "Error saving output file: " . $output_file_path );
         }
 
         $obj_file_docx = new \Iternova\DOCXMerger\libs\DOCXManager( $output_file_path );
         foreach ( $this->array_files as $file_index => $file_path ) {
-            if ( $file_index === 0 ) {
-                // El primero ya esta copiado previamente
-                continue;
-            }
             $page_break = isset( $this->array_files_page_breaks[ $file_index ] ) && (bool) $this->array_files_page_breaks[ $file_index ];
             $obj_file_docx->add_file( $file_path, "file_part_" . $file_index . ".docx", "rId10" . $file_index, $page_break );
         }
