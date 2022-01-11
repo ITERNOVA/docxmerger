@@ -16,30 +16,36 @@ namespace Iternova\DOCXMerger;
 class DOCXMerger {
     /** @var array $array_files Array de ficheros */
     private $array_files = [];
+    /** @var bool[] $array_files_page_breaks Array que indica si al incluir cada fichero hay que introducir un salto de pagina previo */
+    private $array_files_page_breaks = [];
 
 
     /**
      * @param string $file_path Ruta absoluta de fichero DOCX a mergear
+     * @param bool $page_break Indica si se incluye un salto de pagina antes de incluir el fichero DOCX
      */
-    public function add_file( $file_path ) {
+    public function add_file( $file_path, $page_break = false ) {
         $this->array_files[] = $file_path;
+        $this->array_files_page_breaks[] = $page_break;
     }
 
     /**
+     * Incluye ficheros DOCX a mergear
      * @param array $array_files_paths Rutas absolutas de ficheros DOCX a mergear
+     * @param bool[] $array_files_page_breaks Indica si se incluye un salto de pagina antes de incluir el fichero DOCX correspondiente
      */
-    public function add_files( $array_files_paths ) {
+    public function add_files( $array_files_paths, $array_files_page_breaks = [] ) {
         $this->array_files = array_merge( $this->array_files, $array_files_paths );
+        $this->array_files_page_breaks = array_merge( $this->array_files_page_breaks, $array_files_page_breaks );
     }
 
 
     /**
      * @param string $output_file_path Ruta absoluta al fichero DOCX resultante del mergeo
-     * @param bool $page_breaks Incluir saltos de pagina tras cada fichero
      * @return bool Resultado operacion
      * @throws \RuntimeException
      */
-    public function save( $output_file_path, $page_breaks = false ) {
+    public function save( $output_file_path ) {
         if ( empty( $this->array_files ) ) {
             return false;
         }
@@ -54,7 +60,8 @@ class DOCXMerger {
                 // El primero ya esta copiado previamente
                 continue;
             }
-            $obj_file_docx->add_file( $file_path, "file_part_" . $file_index . ".docx", "rId10" . $file_index, $page_breaks );
+            $page_break = isset( $this->array_files_page_breaks[ $file_index ] ) && (bool) $this->array_files_page_breaks[ $file_index ];
+            $obj_file_docx->add_file( $file_path, "file_part_" . $file_index . ".docx", "rId10" . $file_index, $page_break );
         }
 
         $obj_file_docx->flush();
