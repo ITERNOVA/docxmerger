@@ -33,7 +33,7 @@ $array_input_files = [
 ];
 $output_file = $absolute_path_directory .'output_file.docx';
 
-$docx_merger = new \SoporteIternova\DOCXMerger\DOCXMerger();
+$docx_merger = new \Iternova\DOCXMerger\DOCXMerger();
 $docx_merger->add_files( $array_input_files );
 $docx_merger->save( $output_file, true);
 
